@@ -1,0 +1,47 @@
+// Assuming you have pagination controls in your HTML with ids "prevBtn" and "nextBtn"
+let nextUrl = '';
+let prevUrl = '';
+
+fetch('https://swapi.dev/api/planets/?format=json')
+  .then(response => response.json())
+  .then(data => {
+    // Extract next and previous URLs
+    nextUrl = data.next;
+    prevUrl = data.previous;
+    // Display planets data
+    displayPlanets(data.results);
+  })
+  .catch(error => console.log(error));
+
+document.getElementById('prevBtn').addEventListener('click', () => {
+  if (prevUrl) {
+    fetchAndDisplayPlanets(prevUrl);
+  }
+});
+
+document.getElementById('nextBtn').addEventListener('click', () => {
+  if (nextUrl) {
+    fetchAndDisplayPlanets(nextUrl);
+  }
+});
+
+function fetchAndDisplayPlanets(url) {
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      // Extract next and previous URLs
+      nextUrl = data.next;
+      prevUrl = data.previous;
+      // Display planets data
+      displayPlanets(data.results);
+    })
+    .catch(error => console.log(error));
+}
+
+function displayPlanets(planets) {
+  // Clear existing content
+  document.getElementById('planets-container').innerHTML = '';
+  planets.forEach(planet => {
+    // Display planet data
+  });
+}
